@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <style>
+        h1, h2, h3, h4, h5, h6 {
+            font-weight: 400
+        }
+
+        ul {
+            list-style: none
+        }
+
+        html {
+            box-sizing: border-box
+        }
+
+        *, :after, :before {
+            box-sizing: inherit
+        }
+
+        table {
+            border-collapse: collapse;
+            border-spacing: 0
+        }
+
+        td, th {
+            text-align: left
+        }
+
+        body, button {
+            font-family: BlinkMacSystemFont, -apple-system, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Helvetica, Arial, sans-serif
+        }
+
+        code, pre {
+            -moz-osx-font-smoothing: auto;
+            -webkit-font-smoothing: auto;
+            font-family: monospace
+        }
+    </style>
+</head>
+<body>
+<div th:switch="${info.type}">
+    <div th:case="EVENT">
+        <th:block th:remove="all">
+            <th:block th:remove="tag" th:fragment="subject">
+                [[${info.instance.registration.name}]] ([[(${info.instance.id})]]) is
+                [[${info.event.statusInfo.status}]]
+            </th:block>
+        </th:block>
+        <h1>
+            <span></span>
+            <span th:text="${info.instance.registration.name}"/> (<span th:text="${info.instance.id}"/>) is
+            <span th:switch="${info.event.statusInfo.status}">
+        <span th:case="'OFFLINE'">
+            <span style="color: red" th:text="${info.event.statusInfo.status}"/>
+        </span>
+        <span th:case="'UP'">
+            <span style="color: green" th:text="${info.event.statusInfo.status}"/>
+        </span>
+        <span th:case="*">
+            <span th:text="${info.event.statusInfo.status}"/>
+        </span>
+    </span>
+        </h1>
+        <p>
+        <div th:switch="${info.event.statusInfo.status}">
+         <span th:case="'OFFLINE'">
+            <h3 style="color: red">（暂停服务，服务可能处于宕机或重启发布，请确认！！！）</h3>
+        </span>
+        </div>
+        Instance <a th:if="${info.baseUrl}"
+                    th:href="@{${info.baseUrl + '/#/instances/' + info.instance.id + '/'}}"><span
+            th:text="${info.instance.id}"/></a>
+        <span th:unless="${info.baseUrl}" th:text="${info.instance.id}"/>
+        changed status from <span th:text="${info.lastStatus}"/> to <span th:text="${info.event.statusInfo.status}"/>
+        </p>
+
+        <h2>状态详情</h2>
+        <dl th:fragment="statusDetails" th:with="details = ${details ?: info.event.statusInfo.details}">
+            <th:block th:each="detail : ${details}">
+                <dt th:text="${detail.key}"/>
+                <dd th:unless="${detail.value instanceof T(java.util.Map)}" th:text="${detail.value}"/>
+                <dd th:if="${detail.value instanceof T(java.util.Map)}">
+                    <dl th:replace="${#execInfo.templateName} :: statusDetails (details = ${detail.value})"/>
+                </dd>
+            </th:block>
+        </dl>
+
+        <h2>服务指标地址</h2>
+        <table>
+            <tr th:if="${info.instance.registration.serviceUrl}">
+                <td>Service Url</td>
+                <td>
+                    <a th:href="${info.instance.registration.serviceUrl}"
+                       th:text="${info.instance.registration.serviceUrl}"></a>
+                </td>
+            </tr>
+            <tr>
+                <td>Health Url</td>
+                <td>
+                    <a th:href="${info.instance.registration.healthUrl}"
+                       th:text="${info.instance.registration.healthUrl}"></a>
+                </td>
+            </tr>
+            <tr th:if="${info.instance.registration.managementUrl}">
+                <td>Management Url</td>
+                <td>
+                    <a th:href="${info.instance.registration.managementUrl}"
+                       th:text="${info.instance.registration.managementUrl}"></a>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div th:case="ALERT">
+        <h2>状态详情</h2>
+        <dl th:fragment="statusDetails" th:with="details = ${details ?: info.details}">
+            <th:block th:each="detail : ${details}">
+                <dt th:text="${detail.key}"/>
+                <dd th:unless="${detail.value instanceof T(java.util.Map)}" th:text="${detail.value}"/>
+                <dd th:if="${detail.value instanceof T(java.util.Map)}">
+                    <dl th:replace="${#execInfo.templateName} :: statusDetails (details = ${detail.value})"/>
+                </dd>
+            </th:block>
+        </dl>
+        <h2>服务器地址</h2>
+        <span th:text="${info.baseUrl}"></span>
+    </div>
+</div>
+</body>
+</html>
