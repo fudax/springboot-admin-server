@@ -7,9 +7,9 @@ spring:
       password: "admin"
 
   mail:
-    host: "mail.purang.com"
-    username: "autotest@purang.com"
-    password: "Purang123"
+    host: "mail.sepp.com"
+    username: "sepper@sepp.com"
+    password: "***********"
 
   boot:
     admin:
