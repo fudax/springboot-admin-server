@@ -44,30 +44,29 @@
     <div th:case="EVENT">
         <th:block th:remove="all">
             <th:block th:remove="tag" th:fragment="subject">
-                [[${info.instance.registration.name}]] ([[(${info.instance.id})]]) is
-                [[${info.event.statusInfo.status}]]
+                [[${info.instance.registration.name}]] ([[(${info.instance.id})]]) is [[${info.event.statusInfo.status}]]
             </th:block>
         </th:block>
         <h1>
             <span></span>
             <span th:text="${info.instance.registration.name}"/> (<span th:text="${info.instance.id}"/>) is
             <span th:switch="${info.event.statusInfo.status}">
-        <span th:case="'OFFLINE'">
-            <span style="color: red" th:text="${info.event.statusInfo.status}"/>
-        </span>
-        <span th:case="'UP'">
-            <span style="color: green" th:text="${info.event.statusInfo.status}"/>
-        </span>
-        <span th:case="*">
-            <span th:text="${info.event.statusInfo.status}"/>
-        </span>
-    </span>
+                <span th:case="'OFFLINE'">
+                    <span style="color: red" th:text="${info.event.statusInfo.status}"/>
+                </span>
+                <span th:case="'UP'">
+                    <span style="color: green" th:text="${info.event.statusInfo.status}"/>
+                </span>
+                <span th:case="*">
+                    <span th:text="${info.event.statusInfo.status}"/>
+                </span>
+            </span>
         </h1>
         <p>
         <div th:switch="${info.event.statusInfo.status}">
-         <span th:case="'OFFLINE'">
-            <h3 style="color: red">（暂停服务，服务可能处于宕机或重启发布，请确认！！！）</h3>
-        </span>
+             <span th:case="'OFFLINE'">
+                <h3 style="color: red">（暂停服务，服务可能处于宕机或重启发布，请确认！！！）</h3>
+            </span>
         </div>
         Instance <a th:if="${info.baseUrl}"
                     th:href="@{${info.baseUrl + '/#/instances/' + info.instance.id + '/'}}"><span

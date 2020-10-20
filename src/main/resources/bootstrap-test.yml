@@ -1,0 +1,15 @@
+admin:
+  mail:
+    to: liuyi4@fudax.com
+
+nacos:
+  discovery:
+    server-addr: nacos.whalebase.svc.cluster.local:8848
+    namespace: b86537fd-7322-4c24-a220-7fa938d5acca
+
+logging:
+  file:
+    path: /admin/storage/0/whalelog
+
+service:
+  ignored: sep-auth, sep-common, sep-octopus, sep-*-dev, sep-*-local, sep-*-test

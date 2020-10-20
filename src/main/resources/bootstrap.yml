@@ -1,0 +1,74 @@
+spring:
+  application:
+    name: sep-octopus
+  security:
+    user:
+      name: "admin"
+      password: "senseTime@"
+
+  mail:
+    host: "smtp.partner.outlook.cn"
+    port: 587
+    username: "scg.sep@fudax.com"
+    password: "Goodsense@"
+    properties:
+      mail:
+        smtp:
+          auth: false
+          socketFactory:
+            class: javax.net.ssl.SSLSocketFactory
+            fallback: true
+          starttls:
+            enable: true
+      smtp:
+        ssl:
+          enable: false
+
+  boot:
+    admin:
+      ui:
+        title: SEP服务监控中心
+        brand: <img src="assets/img/icon-spring-boot-admin.svg"><span>SEP服务监控中心</span>
+        cache:
+          no-cache: true
+      discovery:
+        ignored-services: ${service.ignored}
+
+  cloud:
+    nacos:
+      discovery:
+        server-addr: ${nacos.discovery.server-addr}
+        namespace: ${nacos.discovery.namespace}
+#        metadata:
+#          user:
+#            name: "nacos"
+#            password: "senseTime@"
+
+admin:
+  notify:
+    mail:
+      to: ${admin.mail.to}
+      from: scg.sep@fudax.com
+      template: classpath:/META-INF/status-changed.html
+
+server:
+#  port: 8009
+  # 目前whale组件统一为默认值8080
+  port: 8080
+  servlet:
+    context-path: /
+
+logging:
+  config: classpath:logback-sep.xml
+  storage:
+    path: ${logging.file.path}/sep/octopus
+  file: ${logging.storage.path}/${spring.application.name}.log
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: ALWAYS
