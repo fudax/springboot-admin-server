@@ -4,13 +4,13 @@ spring:
   security:
     user:
       name: "admin"
-      password: "senseTime@"
+      password: "********"
 
   mail:
     host: "smtp.partner.outlook.cn"
     port: 587
-    username: "scg.sep@fudax.com"
-    password: "Goodsense@"
+    username: "sep@fudax.com"
+    password: "********"
     properties:
       mail:
         smtp:
@@ -42,13 +42,13 @@ spring:
 #        metadata:
 #          user:
 #            name: "nacos"
-#            password: "senseTime@"
+#            password: "********"
 
 admin:
   notify:
     mail:
       to: ${admin.mail.to}
-      from: scg.sep@fudax.com
+      from: sep@fudax.com
       template: classpath:/META-INF/status-changed.html
 
 server:
